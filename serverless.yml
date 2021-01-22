@@ -1,5 +1,5 @@
 service: stone-challenge-backend
-frameworkVersion: "2"
+frameworkVersion: '2'
 
 provider:
   name: aws
@@ -15,8 +15,12 @@ provider:
     region: ${self:provider.region}
     service: ${self:service}
   environment: ${file(ymls/environment.yml)}
-  apiKeys: ${file(ymls/apiKeys.yml)}
-  usagePlan: ${file(ymls/usagePlan.yml)}
+  apiGateway:
+    shouldStartNameWithService: true
+    apiKeys: ${file(ymls/apiKeys.yml)}
+    usagePlan: ${file(ymls/usagePlan.yml)}
+
+custom: ${file(ymls/custom.yml)}
 
 functions: ${file(ymls/functions.yml)}
 

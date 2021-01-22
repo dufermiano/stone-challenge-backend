@@ -1,14 +1,13 @@
 hello:
   handler: index.hello
   memorySize: 256
-  warmup: true
   events:
     - http:
         path: hello
         integration: lambda-proxy
         method: get
         cors:
-          origin: "*"
+          origin: '*'
           headers:
             - Content-Type
             - X-Amz-Date
@@ -21,3 +20,4 @@ hello:
             - Access-Control-Allow-Credentials
             - Access-Control-Allow-Headers
           allowCredentials: false
+        private: ${self:custom.PRIVATE_HTTP.${self:provider.stage}}

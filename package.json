@@ -4,7 +4,10 @@
   "description": "Desafio técnico Stone - Backend",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "sls offline start --port 3000",
+    "start": "node index.js",
+    "deploy": "sls deploy",
+    "debug": "set SLS_DEBUG=* && node --inspect ./node_modules/.bin/serverless offline -s local --port 3003"
   },
   "repository": {
     "type": "git",
@@ -17,6 +20,15 @@
   },
   "homepage": "https://github.com/dufermiano/stone-challenge-backend#readme",
   "devDependencies": {
+    "eslint": "^7.18.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "prettier": "^2.2.1",
+    "serverless": "^2.20.1",
+    "serverless-babel-plugin": "^0.2.0",
     "serverless-offline": "^6.8.0"
   },
   "dependencies": {
