@@ -1,0 +1,5 @@
+STAGE: ${self:provider.stage}
+REGION: ${self:provider.region}
+SERVICE: ${self:service}
+TIMEOUT: 2000000
+APPLICATION: bff-ms-directvgo-elsys

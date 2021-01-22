@@ -1,0 +1,7 @@
+quota:
+  limit: 20000000
+  offset: 0
+  period: WEEK
+throttle:
+  burstLimit: 2000
+  rateLimit: 1000

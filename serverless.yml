@@ -1,0 +1,43 @@
+service: stone-challenge-backend
+frameworkVersion: "2"
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  memorySize: 128
+  stage: dev
+  logRetentionInDays: 7
+  region: sa-east-1
+  versionFunctions: false
+  timeout: 900
+  stackTags:
+    project: stone
+    region: ${self:provider.region}
+    service: ${self:service}
+  environment: ${file(ymls/environment.yml)}
+  apiKeys: ${file(ymls/apiKeys.yml)}
+  usagePlan: ${file(ymls/usagePlan.yml)}
+
+functions: ${file(ymls/functions.yml)}
+
+plugins:
+  - serverless-offline #Debug the lambdas offline
+
+package:
+  exclude:
+    - coverage/**
+    - _warmup/**
+    - test/**
+    - .nyc_output/**
+    - forms/**
+    - .env
+    - .bot-plugin/**
+    - .editorconfig
+    - .gitignore
+    - .eslintignore
+    - .eslintrc.js
+    - package-lock.json
+    - README.md
+    - .vscode/**
+    - .serverless_plugins/**
+    - ymls/**

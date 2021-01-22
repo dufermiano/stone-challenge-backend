@@ -1,0 +1,23 @@
+hello:
+  handler: index.hello
+  memorySize: 256
+  warmup: true
+  events:
+    - http:
+        path: hello
+        integration: lambda-proxy
+        method: get
+        cors:
+          origin: "*"
+          headers:
+            - Content-Type
+            - X-Amz-Date
+            - Authorization
+            - X-Api-Key
+            - X-Amz-Security-Token
+            - X-Amz-User-Agent
+            - Cache-Control
+            - Access-Control-Allow-Origin
+            - Access-Control-Allow-Credentials
+            - Access-Control-Allow-Headers
+          allowCredentials: false
