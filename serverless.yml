@@ -9,7 +9,7 @@ provider:
   logRetentionInDays: 7
   region: sa-east-1
   versionFunctions: false
-  timeout: 900
+  timeout: 30
   stackTags:
     project: stone
     region: ${self:provider.region}
