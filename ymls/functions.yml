@@ -44,3 +44,26 @@ hello2:
             - Access-Control-Allow-Headers
           allowCredentials: false
         private: ${self:custom.PRIVATE_HTTP.${self:provider.stage}}
+login:
+  handler: index.handler
+  memorySize: 256
+  events:
+    - http:
+        path: login
+        integration: lambda-proxy
+        method: post
+        cors:
+          origin: '*'
+          headers:
+            - Content-Type
+            - X-Amz-Date
+            - Authorization
+            - X-Api-Key
+            - X-Amz-Security-Token
+            - X-Amz-User-Agent
+            - Cache-Control
+            - Access-Control-Allow-Origin
+            - Access-Control-Allow-Credentials
+            - Access-Control-Allow-Headers
+          allowCredentials: false
+        private: ${self:custom.PRIVATE_HTTP.${self:provider.stage}}
