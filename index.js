@@ -1,3 +1,4 @@
-const lambdas = require('./src/lambdas');
+import { hello, hello2 } from './src/lambdas';
 
-module.exports = lambdas;
+exports.hello = hello;
+exports.hello2 = hello2;

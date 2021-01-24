@@ -1,7 +1,4 @@
-const hello = require('./hello');
-const hello2 = require('./hello2');
+import hello from './hello';
+import hello2 from './hello2';
 
-module.exports = {
-  hello,
-  hello2,
-};
+export { hello, hello2 };

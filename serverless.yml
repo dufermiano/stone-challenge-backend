@@ -26,8 +26,10 @@ functions: ${file(ymls/functions.yml)}
 
 plugins:
   - serverless-offline #Debug the lambdas offline
+  - serverless-webpack
 
 package:
+  individually: true # serverless optimization
   exclude:
     - coverage/**
     - _warmup/**
