@@ -1,5 +1,5 @@
 hello:
-  handler: index.hello
+  handler: index.handler
   memorySize: 256
   events:
     - http:
@@ -22,7 +22,7 @@ hello:
           allowCredentials: false
         private: ${self:custom.PRIVATE_HTTP.${self:provider.stage}}
 hello2:
-  handler: index.hello2
+  handler: index.handler
   memorySize: 256
   events:
     - http:

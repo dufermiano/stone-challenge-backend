@@ -1,9 +1,10 @@
 PRIVATE_HTTP:
   dev: true
   local: true
+  # serverless-webpack configuration
+  # Enable auto-packing of external modules
 
-# serverless-webpack configuration
-# Enable auto-packing of external modules
 webpack:
   webpackConfig: ./webpack.config.js
   includeModules: true
+  packager: yarn
