@@ -1,9 +1,9 @@
 import serverless from 'serverless-http';
 import express from 'express';
-import { hello, hello2 } from './src/lambdas';
+import mainRouter from './src/routes/mainRouter';
+
 const app = express();
 
-app.get('/hello', hello);
-app.get('/hello2', hello2);
+app.use(mainRouter);
 
 exports.handler = serverless(app);
