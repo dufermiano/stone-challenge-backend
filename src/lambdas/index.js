@@ -12,7 +12,7 @@ import {
   createFavorite,
   activateOrDeactivateFavorite,
   listFavorites,
-} from './user/favoriteController';
+} from './favorites/favoriteController';
 
 export {
   hello,
