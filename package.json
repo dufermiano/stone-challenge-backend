@@ -44,6 +44,7 @@
     "aws-sdk": "^2.831.0",
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
+    "crypto-js": "^4.0.0",
     "dotenv": "^8.2.0",
     "elasticemail-webapiclient": "^2.0.14",
     "express": "^4.17.1",

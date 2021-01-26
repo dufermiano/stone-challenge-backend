@@ -2,6 +2,7 @@
 
 import { connectDB } from '../../services/db';
 import UserDao from '../../services/UserDao';
+import { encrypt } from '../../utils/crypto';
 import jwt from 'jsonwebtoken';
 
 const createUser = async (req, res) => {
@@ -19,6 +20,8 @@ const createUser = async (req, res) => {
     }
 
     user.active = true;
+    const encryptedPass = encrypt(user.password);
+    user.password = encryptedPass;
     await userDao.save(user);
 
     return res.status(202).json('Usuario criado');
@@ -35,8 +38,10 @@ const login = async (req, res) => {
 
   const { username, password } = req.body;
 
+  const encryptedPass = encrypt(password);
+
   try {
-    const [currentUser] = await userDao.login(username, password);
+    const [currentUser] = await userDao.login(username, encryptedPass);
 
     if (currentUser.length > 0) {
       const token = jwt.sign({ userId: currentUser[0].userId }, 'a', {
