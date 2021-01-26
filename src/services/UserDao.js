@@ -12,6 +12,11 @@ class UserDao {
     return await this.connection.query(sql, username);
   }
 
+  async getByUserId(userId) {
+    const sql = 'SELECT * FROM USER WHERE userId = ?';
+    return await this.connection.query(sql, userId);
+  }
+
   async login(username, password) {
     const sql = 'SELECT * FROM USER WHERE USERNAME = ? AND PASSWORD = ?';
     return await this.connection.query(sql, [username, password]);
