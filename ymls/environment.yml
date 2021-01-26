@@ -3,3 +3,13 @@ REGION: ${self:provider.region}
 SERVICE: ${self:service}
 TIMEOUT: 2000000
 APPLICATION: bff-ms-directvgo-elsys
+
+MARVEL_BUCKET_NAME: marvel-keys
+
+MARVEL_API_BASE_URL: http://gateway.marvel.com/v1/public
+MARVEL_API_COMICS: /comics
+
+MARVEL_PRIVATE_KEY_FILE_NAME: privateKey.txt
+MARVEL_PUBLIC_KEY_FILE_NAME: publicKey.txt
+
+MARVEL_API_TIMESTAMP: 10000

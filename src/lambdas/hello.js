@@ -1,8 +1,13 @@
 'use strict';
 
-const hello = (req, res) => {
+import { getComics } from '../services/marvel';
+
+const hello = async (req, res) => {
+  const result = await getComics();
+
   res.json({
     message: 'This is hello',
+    result,
     url: req.url,
   });
 

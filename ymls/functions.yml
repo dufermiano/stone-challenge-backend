@@ -1,6 +1,13 @@
 hello:
   handler: index.handler
-  memorySize: 256
+  memorySize: 128
+  iamRoleStatementsName: ${self:service}-${self:provider.stage}-s3-permission
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:getObject
+      Resource:
+        - arn:aws:s3:::marvel-keys/*
   events:
     - http:
         path: hello
@@ -23,7 +30,7 @@ hello:
         private: ${self:custom.PRIVATE_HTTP.${self:provider.stage}}
 hello2:
   handler: index.handler
-  memorySize: 256
+  memorySize: 128
   events:
     - http:
         path: hello2
@@ -46,7 +53,7 @@ hello2:
         private: ${self:custom.PRIVATE_HTTP.${self:provider.stage}}
 login:
   handler: index.handler
-  memorySize: 256
+  memorySize: 128
   events:
     - http:
         path: login

@@ -26,7 +26,8 @@ functions: ${file(ymls/functions.yml)}
 
 plugins:
   - serverless-offline #Debug the lambdas offline
-  - serverless-webpack
+  - serverless-webpack #Babel bundle with webpack
+  - serverless-iam-roles-per-function #Role per function
 
 package:
   individually: true # serverless optimization
