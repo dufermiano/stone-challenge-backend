@@ -15,19 +15,16 @@ const createUser = async (req, res) => {
     const [currentUser] = await userDao.getByUsername(user.username);
 
     if (currentUser.length > 0) {
-      res.status(200).json('Usuario já existe');
-      return;
+      return res.status(200).json('Usuario já existe');
     }
 
     user.active = true;
-    const result = await userDao.save(user);
+    await userDao.save(user);
 
-    console.log(result);
-
-    res.status(202).json('Usuario criado');
+    return res.status(202).json('Usuario criado');
   } catch (error) {
     console.log(error);
-    res.status(500).json('Erro');
+    return res.status(500).json('Erro');
   }
 };
 
@@ -48,7 +45,7 @@ const login = async (req, res) => {
       return res.json({ auth: true, token: token });
     }
 
-    res
+    return res
       .status(400)
       .json({ message: 'Login inválido! Usuário ou senha inválidos' });
   } catch (error) {
@@ -72,10 +69,10 @@ const updateUser = async (req, res) => {
     const { affectedRows } = await userDao.modify(1, userData);
     console.log(affectedRows);
 
-    res.status(200).json('Usuario alterado');
+    return res.status(200).json('Usuario alterado');
   } catch (error) {
     console.log(error);
-    res.status(500).json('Erro');
+    return res.status(500).json('Erro');
   }
 };
 
@@ -90,11 +87,17 @@ const activateOrDeactivateUser = async (req, res) => {
     const { affectedRows } = await userDao.modify(1, userData);
     console.log(affectedRows);
 
-    const responseString = userData.active
-      ? 'Usuário ativado'
-      : 'Usuário desativado';
+    if (affectedRows > 0) {
+      const responseString = userData.active
+        ? 'Usuário ativado'
+        : 'Usuário desativado';
 
-    res.status(200).json(responseString);
+      return res
+        .status(200)
+        .json({ message: responseString, modified: userData.active });
+    }
+
+    return res.status(200).json('Usuário não encontrado');
   } catch (error) {
     console.log(error);
     res.status(500).json('Erro');

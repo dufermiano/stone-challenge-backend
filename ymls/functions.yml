@@ -51,29 +51,6 @@ createUser:
             - Access-Control-Allow-Headers
           allowCredentials: false
         private: ${self:custom.PRIVATE_HTTP.${self:provider.stage}}
-updateUser:
-  handler: index.handler
-  memorySize: 128
-  events:
-    - http:
-        path: update-user
-        integration: lambda-proxy
-        method: patch
-        cors:
-          origin: '*'
-          headers:
-            - Content-Type
-            - X-Amz-Date
-            - Authorization
-            - X-Api-Key
-            - X-Amz-Security-Token
-            - X-Amz-User-Agent
-            - Cache-Control
-            - Access-Control-Allow-Origin
-            - Access-Control-Allow-Credentials
-            - Access-Control-Allow-Headers
-          allowCredentials: false
-        private: ${self:custom.PRIVATE_HTTP.${self:provider.stage}}
 updateUserStatus:
   handler: index.handler
   memorySize: 128
