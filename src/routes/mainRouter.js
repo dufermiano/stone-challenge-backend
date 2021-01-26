@@ -6,6 +6,7 @@ import {
   logout,
   createUser,
   updateUser,
+  activateOrDeactivateUser,
 } from '../lambdas';
 import jwt from 'jsonwebtoken';
 
@@ -34,6 +35,8 @@ mainRouter.get('/hello2', hello2);
 mainRouter.post('/create-user', createUser);
 
 mainRouter.patch('/update-user', updateUser);
+
+mainRouter.patch('/update-user-status', activateOrDeactivateUser);
 
 mainRouter.post('/login', login);
 

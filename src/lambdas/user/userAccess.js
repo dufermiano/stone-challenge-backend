@@ -79,4 +79,26 @@ const updateUser = async (req, res) => {
   }
 };
 
-export { login, logout, createUser, updateUser };
+const activateOrDeactivateUser = async (req, res) => {
+  const conn = await connectDB();
+
+  const userDao = new UserDao(conn);
+
+  const userData = req.body;
+
+  try {
+    const { affectedRows } = await userDao.modify(1, userData);
+    console.log(affectedRows);
+
+    const responseString = userData.active
+      ? 'Usuário ativado'
+      : 'Usuário desativado';
+
+    res.status(200).json(responseString);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json('Erro');
+  }
+};
+
+export { login, logout, createUser, updateUser, activateOrDeactivateUser };
