@@ -2,19 +2,6 @@
 
 import { getAllComics } from '../../services/marvel';
 
-// function that returns the properties
-const unwrapComicsProperties = ({
-  description,
-  characters,
-  thumbnail,
-  title,
-}) => ({
-  description,
-  characters,
-  thumbnail,
-  title,
-});
-
 const getComics = async (req, res) => {
   try {
     const comics = await getAllComics();
@@ -28,7 +15,6 @@ const getComics = async (req, res) => {
           comic.title !== null &&
           comic.thumbnail !== null
       )
-      .map((comicFiltered) => unwrapComicsProperties(comicFiltered)) // getting only the properties that will be used by the front-end
       .map((comicUnwrapped) => {
         const { path, extension } = comicUnwrapped.thumbnail;
 

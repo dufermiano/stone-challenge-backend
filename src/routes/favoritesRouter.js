@@ -3,7 +3,7 @@ import {
   listFavorites,
   createFavorite,
   activateOrDeactivateFavorite,
-} from '../lambdas';
+} from '../controllers';
 
 // Importing middleware function that authorizes the request
 import { verifyJWT } from '../utils/jwt';
