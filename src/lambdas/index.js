@@ -8,6 +8,12 @@ import {
   activateOrDeactivateUser,
 } from './user/userAccess';
 
+import {
+  createFavorite,
+  updateFavorite,
+  activateOrDeactivateFavorite,
+} from './user/favoriteAccess';
+
 export {
   hello,
   hello2,
@@ -16,4 +22,7 @@ export {
   createUser,
   updateUser,
   activateOrDeactivateUser,
+  createFavorite,
+  updateFavorite,
+  activateOrDeactivateFavorite,
 };

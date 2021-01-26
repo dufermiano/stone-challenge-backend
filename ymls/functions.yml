@@ -166,3 +166,26 @@ logout:
             - Access-Control-Allow-Headers
           allowCredentials: false
         private: ${self:custom.PRIVATE_HTTP.${self:provider.stage}}
+createFavorite:
+  handler: index.handler
+  memorySize: 128
+  events:
+    - http:
+        path: create-favorite
+        integration: lambda-proxy
+        method: post
+        cors:
+          origin: '*'
+          headers:
+            - Content-Type
+            - X-Amz-Date
+            - Authorization
+            - X-Api-Key
+            - X-Amz-Security-Token
+            - X-Amz-User-Agent
+            - Cache-Control
+            - Access-Control-Allow-Origin
+            - Access-Control-Allow-Credentials
+            - Access-Control-Allow-Headers
+          allowCredentials: false
+        private: ${self:custom.PRIVATE_HTTP.${self:provider.stage}}
