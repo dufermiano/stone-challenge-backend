@@ -9,16 +9,17 @@ const createUser = async (req, res) => {
 
   const userDao = new UserDao(conn);
 
-  const { username } = req.body;
+  const user = req.body;
 
   try {
-    const [currentUser] = await userDao.getByUsername(username);
+    const [currentUser] = await userDao.getByUsername(user.username);
 
     if (currentUser.length > 0) {
       res.status(200).json('Usuario já existe');
       return;
     }
 
+    user.active = true;
     const result = await userDao.save(user);
 
     console.log(result);
