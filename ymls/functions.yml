@@ -1,39 +1,39 @@
-hello:
-  handler: index.handler
-  memorySize: 128
-  iamRoleStatementsName: ${self:service}-${self:provider.stage}-s3-permission
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - s3:getObject
-      Resource:
-        - arn:aws:s3:::marvel-keys/*
-  events:
-    - http:
-        path: hello
-        integration: lambda-proxy
-        method: get
-        cors:
-          origin: '*'
-          headers:
-            - Content-Type
-            - X-Amz-Date
-            - Authorization
-            - X-Api-Key
-            - X-Amz-Security-Token
-            - X-Amz-User-Agent
-            - Cache-Control
-            - Access-Control-Allow-Origin
-            - Access-Control-Allow-Credentials
-            - Access-Control-Allow-Headers
-          allowCredentials: false
-        private: ${self:custom.PRIVATE_HTTP.${self:provider.stage}}
+# hello:
+#   handler: index.handler
+#   memorySize: 128
+#   iamRoleStatementsName: ${self:service}-${self:provider.stage}-s3-permission
+#   iamRoleStatements:
+#     - Effect: Allow
+#       Action:
+#         - s3:getObject
+#       Resource:
+#         - arn:aws:s3:::marvel-keys/*
+#   events:
+#     - http:
+#         path: hello
+#         integration: lambda-proxy
+#         method: get
+#         cors:
+#           origin: '*'
+#           headers:
+#             - Content-Type
+#             - X-Amz-Date
+#             - Authorization
+#             - X-Api-Key
+#             - X-Amz-Security-Token
+#             - X-Amz-User-Agent
+#             - Cache-Control
+#             - Access-Control-Allow-Origin
+#             - Access-Control-Allow-Credentials
+#             - Access-Control-Allow-Headers
+#           allowCredentials: false
+#         private: ${self:custom.PRIVATE_HTTP.${self:provider.stage}}
 createUser:
   handler: index.handler
   memorySize: 128
   events:
     - http:
-        path: create-user
+        path: user/create-user
         integration: lambda-proxy
         method: post
         cors:
@@ -56,7 +56,7 @@ updateUserStatus:
   memorySize: 128
   events:
     - http:
-        path: update-user-status
+        path: user/update-user-status/{userId}
         integration: lambda-proxy
         method: patch
         cors:
@@ -74,14 +74,14 @@ updateUserStatus:
             - Access-Control-Allow-Headers
           allowCredentials: false
         private: ${self:custom.PRIVATE_HTTP.${self:provider.stage}}
-hello2:
+updateUserData:
   handler: index.handler
   memorySize: 128
   events:
     - http:
-        path: hello2
+        path: user/update/{userId}
         integration: lambda-proxy
-        method: get
+        method: put
         cors:
           origin: '*'
           headers:
@@ -148,9 +148,55 @@ createFavorite:
   memorySize: 128
   events:
     - http:
-        path: create-favorite
+        path: favorites/create-favorite/{userId}
         integration: lambda-proxy
         method: post
+        cors:
+          origin: '*'
+          headers:
+            - Content-Type
+            - X-Amz-Date
+            - Authorization
+            - X-Api-Key
+            - X-Amz-Security-Token
+            - X-Amz-User-Agent
+            - Cache-Control
+            - Access-Control-Allow-Origin
+            - Access-Control-Allow-Credentials
+            - Access-Control-Allow-Headers
+          allowCredentials: false
+        private: ${self:custom.PRIVATE_HTTP.${self:provider.stage}}
+updateFavoriteStatus:
+  handler: index.handler
+  memorySize: 128
+  events:
+    - http:
+        path: favorite/update-favorite/{userId}
+        integration: lambda-proxy
+        method: post
+        cors:
+          origin: '*'
+          headers:
+            - Content-Type
+            - X-Amz-Date
+            - Authorization
+            - X-Api-Key
+            - X-Amz-Security-Token
+            - X-Amz-User-Agent
+            - Cache-Control
+            - Access-Control-Allow-Origin
+            - Access-Control-Allow-Credentials
+            - Access-Control-Allow-Headers
+          allowCredentials: false
+        private: ${self:custom.PRIVATE_HTTP.${self:provider.stage}}
+getFavorites:
+  handler: index.handler
+  memorySize: 128
+  events:
+    - http:
+        path: favorites/{userId}
+        integration: lambda-proxy
+        method: get
         cors:
           origin: '*'
           headers:

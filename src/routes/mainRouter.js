@@ -1,13 +1,14 @@
 import { Router } from 'express';
 import {
   hello,
-  hello2,
   login,
   logout,
   createUser,
-  updateUser,
+  listFavorites,
   activateOrDeactivateUser,
   createFavorite,
+  activateOrDeactivateFavorite,
+  updateUser,
 } from '../lambdas';
 import jwt from 'jsonwebtoken';
 
@@ -31,15 +32,22 @@ function verifyJWT(req, res, next) {
 const mainRouter = Router();
 
 mainRouter.get('/hello', hello);
-mainRouter.get('/hello2', hello2);
 
-mainRouter.post('/create-user', createUser);
-mainRouter.post('/create-favorite', createFavorite);
+// Favorite Routes
+mainRouter.post('/favorites/create-favorite/:userId', createFavorite);
+mainRouter.get('/favorites/:userId', listFavorites);
+mainRouter.get(
+  '/favorites/change-status/:userId',
+  activateOrDeactivateFavorite
+);
 
-mainRouter.patch('/update-user-status', activateOrDeactivateUser);
+// User Routes
+mainRouter.post('/user/create-user', createUser);
+mainRouter.patch('/user/update-user-status/:userId', activateOrDeactivateUser);
+mainRouter.put('/user/update/:userId', updateUser);
 
+// Login/Logout Routes
 mainRouter.post('/login', login);
-
 mainRouter.post('/logout', logout);
 
 export default mainRouter;
