@@ -60,4 +60,22 @@ const logout = (req, res) => {
   res.json({ auth: false, token: null });
 };
 
-export { login, logout, createUser };
+const updateUser = async (req, res) => {
+  const conn = await connectDB();
+
+  const userDao = new UserDao(conn);
+
+  const userData = req.body;
+
+  try {
+    const { affectedRows } = await userDao.modify(1, userData);
+    console.log(affectedRows);
+
+    res.status(200).json('Usuario alterado');
+  } catch (error) {
+    console.log(error);
+    res.status(500).json('Erro');
+  }
+};
+
+export { login, logout, createUser, updateUser };

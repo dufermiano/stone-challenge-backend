@@ -1,5 +1,12 @@
 import { Router } from 'express';
-import { hello, hello2, login, logout, createUser } from '../lambdas';
+import {
+  hello,
+  hello2,
+  login,
+  logout,
+  createUser,
+  updateUser,
+} from '../lambdas';
 import jwt from 'jsonwebtoken';
 
 function verifyJWT(req, res, next) {
@@ -25,6 +32,8 @@ mainRouter.get('/hello', hello);
 mainRouter.get('/hello2', hello2);
 
 mainRouter.post('/create-user', createUser);
+
+mainRouter.patch('/update-user', updateUser);
 
 mainRouter.post('/login', login);
 

@@ -17,6 +17,19 @@ class UserDao {
     return await this.connection.query(sql, [username, password]);
   }
 
+  async modify(userId, update) {
+    const query =
+      'Update USER SET ' +
+      Object.keys(update)
+        .map((key) => `${key} = ?`)
+        .join(', ') +
+      ' WHERE userId = ?';
+    const parameters = [...Object.values(update), userId];
+    console.log('updateUser: Running query:', query);
+    const [rows, meta] = await this.connection.query(query, parameters);
+    return rows;
+  }
+
   async save(user) {
     const sql = 'INSERT INTO USER SET ?;';
     return await this.connection.query(sql, user);
