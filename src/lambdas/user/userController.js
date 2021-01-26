@@ -27,7 +27,7 @@ const createUser = async (req, res) => {
     return res.status(202).json('Usuario criado');
   } catch (error) {
     console.log(error);
-    return res.status(500).json('Erro');
+    return res.status(500).json('Internal Server Error');
   }
 };
 
@@ -69,15 +69,21 @@ const updateUser = async (req, res) => {
   const userDao = new UserDao(conn);
 
   const userData = req.body;
+  const { userId } = req.params;
 
   try {
-    const { affectedRows } = await userDao.modify(1, userData);
-    console.log(affectedRows);
+    if (userData.hasOwnProperty('password')) {
+      const encryptedPass = encrypt(userData.password);
+      userData.password = encryptedPass;
+    }
+
+    const { affectedRows } = await userDao.modify(userId, userData);
+    console.log('Linhas afetadas', affectedRows);
 
     return res.status(200).json('Usuario alterado');
   } catch (error) {
     console.log(error);
-    return res.status(500).json('Erro');
+    return res.status(500).json('Internal Server Error');
   }
 };
 
@@ -105,7 +111,7 @@ const activateOrDeactivateUser = async (req, res) => {
     return res.status(200).json('Usuário não encontrado');
   } catch (error) {
     console.log(error);
-    res.status(500).json('Erro');
+    res.status(500).json('Internal Server Error');
   }
 };
 

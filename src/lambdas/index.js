@@ -1,21 +1,20 @@
 import hello from './hello';
-import hello2 from './hello2';
 import {
   login,
   logout,
   createUser,
   updateUser,
   activateOrDeactivateUser,
-} from './user/userAccess';
+} from './user/userController';
 
 import {
   createFavorite,
   activateOrDeactivateFavorite,
-} from './user/favoriteAccess';
+  listFavorites,
+} from './user/favoriteController';
 
 export {
   hello,
-  hello2,
   login,
   logout,
   createUser,
@@ -23,4 +22,5 @@ export {
   activateOrDeactivateUser,
   createFavorite,
   activateOrDeactivateFavorite,
+  listFavorites,
 };
