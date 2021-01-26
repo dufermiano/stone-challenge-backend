@@ -10,7 +10,6 @@ import {
 
 import {
   createFavorite,
-  updateFavorite,
   activateOrDeactivateFavorite,
 } from './user/favoriteAccess';
 
@@ -23,6 +22,5 @@ export {
   updateUser,
   activateOrDeactivateUser,
   createFavorite,
-  updateFavorite,
   activateOrDeactivateFavorite,
 };

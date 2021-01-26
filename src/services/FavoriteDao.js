@@ -3,8 +3,16 @@ class FavoriteDao {
     this.connection = connection;
   }
 
-  async getAll() {
-    return await this.connection.query('SELECT * FROM FAVORITES');
+  async getAll(userId, fields) {
+    const query = `SELECT * FROM FAVORITES WHERE USERID = ? AND ${Object.keys(
+      fields
+    )
+      .map((key) => `${key} = ?`)
+      .join(', ')} AND ACTIVE = TRUE`;
+    console.log('get favorites: Running query:', query);
+    const parameters = [userId, ...Object.values(fields)];
+    console.log('parameters on select', parameters);
+    return await this.connection.query(query, parameters);
   }
 
   async getById(favId) {
@@ -22,6 +30,7 @@ class FavoriteDao {
     const parameters = [...Object.values(update), userId];
     console.log('updateUser: Running query:', query);
     const [rows, meta] = await this.connection.query(query, parameters);
+    console.log('parameters on update', parameters);
     return rows;
   }
 

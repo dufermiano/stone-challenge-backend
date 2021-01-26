@@ -8,25 +8,31 @@ const createFavorite = async (req, res) => {
 
   const favoriteDao = new FavoriteDao(conn);
 
-  const fav = req.body;
+  const favData = req.body;
 
   try {
-    const [currentUser] = await favoriteDao.getAll();
-
-    if (currentUser.length > 0) {
-      res.status(200).json('Favorito já existe');
-      return;
+    for (let x in favData) {
+      if (favData[x] === null) {
+        delete favData[x];
+      }
     }
 
-    fav.active = true;
-    const result = await favoriteDao.save(fav);
+    const [currentUser] = await favoriteDao.getAll(1, favData);
 
-    console.log(result);
+    if (currentUser.length > 0) {
+      return res
+        .status(200)
+        .json({ message: 'Favorito já existe', created: false });
+    }
 
-    res.status(202).json('Favorito criado');
+    favData.active = true;
+    favData.userId = 1;
+    await favoriteDao.save(fav);
+
+    return res.status(202).json({ message: 'Favorito criado', created: true });
   } catch (error) {
     console.log(error);
-    res.status(500).json('Erro');
+    return res.status(500).json('Erro');
   }
 };
 
@@ -35,39 +41,26 @@ const activateOrDeactivateFavorite = async (req, res) => {
 
   const favoriteDao = new UserDao(conn);
 
-  const userData = req.body;
+  const favData = req.body;
 
   try {
-    const { affectedRows } = await userDao.modify(1, userData);
-    console.log(affectedRows);
+    const { affectedRows } = await favoriteDao.modify(1, favData);
 
-    const responseString = userData.active
-      ? 'Usuário ativado'
-      : 'Usuário desativado';
+    if (affectedRows > 0) {
+      const responseString = favData.active
+        ? 'Favorito ativado'
+        : 'Favorito desativado';
 
-    res.status(200).json(responseString);
+      return res
+        .status(200)
+        .json({ message: responseString, modified: favData.active });
+    }
+
+    return res.status(200).json('Favorito não encontrado');
   } catch (error) {
     console.log(error);
-    res.status(500).json('Erro');
+    return res.status(500).json('Erro');
   }
 };
 
-const updateFavorite = async (req, res) => {
-  const conn = await connectDB();
-
-  const userDao = new UserDao(conn);
-
-  const userData = req.body;
-
-  try {
-    const { affectedRows } = await userDao.modify(1, userData);
-    console.log(affectedRows);
-
-    res.status(200).json('Usuario alterado');
-  } catch (error) {
-    console.log(error);
-    res.status(500).json('Erro');
-  }
-};
-
-export { createFavorite, updateFavorite, activateOrDeactivateFavorite };
+export { createFavorite, activateOrDeactivateFavorite };

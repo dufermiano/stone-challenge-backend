@@ -36,8 +36,6 @@ mainRouter.get('/hello2', hello2);
 mainRouter.post('/create-user', createUser);
 mainRouter.post('/create-favorite', createFavorite);
 
-mainRouter.patch('/update-user', updateUser);
-
 mainRouter.patch('/update-user-status', activateOrDeactivateUser);
 
 mainRouter.post('/login', login);
