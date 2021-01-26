@@ -1,4 +1,3 @@
-import hello from './hello';
 import {
   login,
   logout,
@@ -14,8 +13,10 @@ import {
   listFavorites,
 } from './favorites/favoriteController';
 
+import { getComics } from './marvel/marvelController';
+
 export {
-  hello,
+  getComics,
   login,
   logout,
   createUser,

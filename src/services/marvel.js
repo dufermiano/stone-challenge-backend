@@ -17,7 +17,7 @@ const options = {
   timeout: process.env.TIMEOUT_DEFAULT,
 };
 
-const getComics = async () => {
+const getAllComics = async () => {
   const { privateKey, publicKey } = await getKeys();
   const hash = await createHash(privateKey, publicKey);
 
@@ -35,4 +35,4 @@ const getComics = async () => {
   }
 };
 
-export { getComics };
+export { getAllComics };

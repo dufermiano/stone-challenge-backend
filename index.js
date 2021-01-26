@@ -4,7 +4,6 @@ import favoritesRouter from './src/routes/favoritesRouter';
 import usersRouter from './src/routes/usersRouter';
 import marvelApiRouter from './src/routes/marvelRouter';
 import bodyParser from 'body-parser';
-import marvelApiRouter from './src/routes/marvelRouter';
 
 const app = express();
 

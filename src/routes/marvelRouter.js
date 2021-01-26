@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import {} from '../lambdas';
+import { getComics } from '../controllers';
 
 // Importing middleware function that authorizes the request
 import { verifyJWT } from '../utils/jwt';
@@ -7,6 +7,6 @@ import { verifyJWT } from '../utils/jwt';
 const marvelApiRouter = Router();
 
 // Marvel API Router
-marvelApiRouter.post('/marvel/create-favorite/:userId', verifyJWT);
+marvelApiRouter.get('/marvel/comics', verifyJWT, getComics);
 
 export default marvelApiRouter;

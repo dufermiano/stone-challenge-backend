@@ -18,10 +18,10 @@ const privateParams = {
 
 const getKeys = async () => {
   try {
-    console.log(`entrei aqui`);
+    console.log('Iniciando busca de chaves no S3');
     const publicKey = await s3.getObject(publicParams).promise();
     const privateKey = await s3.getObject(privateParams).promise();
-    console.log(`chaves`);
+    console.log('Chaves recebidas');
 
     return {
       publicKey: publicKey.Body.toString().trim(),
