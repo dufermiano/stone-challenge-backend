@@ -3,7 +3,7 @@ class FavoriteDao {
     this.connection = connection;
   }
 
-  async getAll(userId, fields) {
+  async getByAllById(userId, fields) {
     const query = `SELECT * FROM FAVORITES WHERE USERID = ? AND ${Object.keys(
       fields
     )
@@ -15,9 +15,9 @@ class FavoriteDao {
     return await this.connection.query(query, parameters);
   }
 
-  async getById(favId) {
-    const sql = 'SELECT * FROM USER WHERE favId = ?';
-    return await this.connection.query(sql, favId);
+  async getAllByUserId(userId) {
+    const sql = 'SELECT * FROM FAVORITES WHERE userId = ?';
+    return await this.connection.query(sql, userId);
   }
 
   async modify(userId, update) {
