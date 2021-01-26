@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { hello, hello2 } from '../lambdas';
+import { hello, hello2, login, logout, createUser } from '../lambdas';
 import jwt from 'jsonwebtoken';
 
 function verifyJWT(req, res, next) {
@@ -24,8 +24,10 @@ const mainRouter = Router();
 mainRouter.get('/hello', hello);
 mainRouter.get('/hello2', hello2);
 
-mainRouter.post('/logout', function (req, res) {
-  res.json({ auth: false, token: null });
-});
+mainRouter.post('/create-user', createUser);
+
+mainRouter.post('/login', login);
+
+mainRouter.post('/logout', logout);
 
 export default mainRouter;

@@ -50,7 +50,9 @@
     "express": "^4.17.1",
     "helmet": "^4.4.1",
     "jsonwebtoken": "^8.5.1",
+    "knex": "^0.21.16",
     "mysql": "^2.18.1",
+    "mysql2": "^2.2.5",
     "serverless-http": "^2.7.0",
     "source-map-support": "^0.5.19"
   }
