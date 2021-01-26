@@ -33,9 +33,32 @@ createUser:
   memorySize: 128
   events:
     - http:
-        path: user/create-user
+        path: users/create-user
         integration: lambda-proxy
         method: post
+        cors:
+          origin: '*'
+          headers:
+            - Content-Type
+            - X-Amz-Date
+            - Authorization
+            - X-Api-Key
+            - X-Amz-Security-Token
+            - X-Amz-User-Agent
+            - Cache-Control
+            - Access-Control-Allow-Origin
+            - Access-Control-Allow-Credentials
+            - Access-Control-Allow-Headers
+          allowCredentials: false
+        private: ${self:custom.PRIVATE_HTTP.${self:provider.stage}}
+getUserById:
+  handler: index.handler
+  memorySize: 128
+  events:
+    - http:
+        path: users/{userId}
+        integration: lambda-proxy
+        method: get
         cors:
           origin: '*'
           headers:
@@ -56,7 +79,7 @@ updateUserStatus:
   memorySize: 128
   events:
     - http:
-        path: user/update-user-status/{userId}
+        path: users/update-user-status/{userId}
         integration: lambda-proxy
         method: patch
         cors:
@@ -79,7 +102,7 @@ updateUserData:
   memorySize: 128
   events:
     - http:
-        path: user/update/{userId}
+        path: users/update/{userId}
         integration: lambda-proxy
         method: put
         cors:

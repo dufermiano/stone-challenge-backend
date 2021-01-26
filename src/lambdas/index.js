@@ -5,6 +5,7 @@ import {
   createUser,
   updateUser,
   activateOrDeactivateUser,
+  getUserById,
 } from './user/userController';
 
 import {
@@ -23,4 +24,5 @@ export {
   createFavorite,
   activateOrDeactivateFavorite,
   listFavorites,
+  getUserById,
 };

@@ -115,4 +115,27 @@ const activateOrDeactivateUser = async (req, res) => {
   }
 };
 
-export { login, logout, createUser, updateUser, activateOrDeactivateUser };
+const getUserById = async (req, res) => {
+  const conn = await connectDB();
+
+  const userDao = new UserDao(conn);
+
+  const { userId } = req.params;
+
+  try {
+    const [user] = await userDao.getByUserId(userId);
+    return res.status(200).json({ status: 'ok', user });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ status: 'Internal Server Error' });
+  }
+};
+
+export {
+  login,
+  logout,
+  createUser,
+  updateUser,
+  activateOrDeactivateUser,
+  getUserById,
+};

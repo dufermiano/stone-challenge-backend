@@ -9,6 +9,7 @@ import {
   createFavorite,
   activateOrDeactivateFavorite,
   updateUser,
+  getUserById,
 } from '../lambdas';
 import jwt from 'jsonwebtoken';
 
@@ -42,9 +43,10 @@ mainRouter.get(
 );
 
 // User Routes
-mainRouter.post('/user/create-user', createUser);
-mainRouter.patch('/user/update-user-status/:userId', activateOrDeactivateUser);
-mainRouter.put('/user/update/:userId', updateUser);
+mainRouter.post('/users/create-user', createUser);
+mainRouter.get('/users/:userId', getUserById);
+mainRouter.patch('/users/update-user-status/:userId', activateOrDeactivateUser);
+mainRouter.put('/users/update/:userId', updateUser);
 
 // Login/Logout Routes
 mainRouter.post('/login', login);
