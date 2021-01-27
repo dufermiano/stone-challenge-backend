@@ -1,5 +1,10 @@
 import { Router } from 'express';
-import { getComics, getComicsById } from '../controllers';
+import {
+  getComics,
+  getComicsById,
+  getCharacters,
+  getCharactersById,
+} from '../controllers';
 
 // Importing middleware function that authorizes the request
 import { verifyJWT } from '../utils/jwt';
@@ -13,11 +18,11 @@ marvelApiRouter.get('/marvel/comics', verifyJWT, getComics);
 marvelApiRouter.get('/marvel/comics/:comicId', verifyJWT, getComicsById);
 
 // characters API
-// marvelApiRouter.get('/marvel/characters', verifyJWT, getComics);
-// marvelApiRouter.get(
-//   '/marvel/characters/:characterId',
-//   verifyJWT,
-//   getComicsById
-// );
+marvelApiRouter.get('/marvel/characters', verifyJWT, getCharacters);
+marvelApiRouter.get(
+  '/marvel/characters/:characterId',
+  verifyJWT,
+  getCharactersById
+);
 
 export default marvelApiRouter;

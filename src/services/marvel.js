@@ -53,4 +53,40 @@ const comicById = async (comicId) => {
   }
 };
 
-export { allComics, comicById };
+const allCharacters = async () => {
+  const { privateKey, publicKey } = await getKeys();
+  const hash = await createHash(privateKey, publicKey);
+
+  const url = `${process.env.MARVEL_API_CHARACTERS}?limit=100ts=${process.env.MARVEL_API_TIMESTAMP}&apikey=${publicKey}&hash=${hash}`;
+
+  try {
+    const {
+      data: {
+        data: { results },
+      },
+    } = await get(encodeURI(url), options);
+    return results;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const characterById = async (characterId) => {
+  const { privateKey, publicKey } = await getKeys();
+  const hash = await createHash(privateKey, publicKey);
+
+  const url = `${process.env.MARVEL_API_CHARACTERS}/${characterId}?ts=${process.env.MARVEL_API_TIMESTAMP}&apikey=${publicKey}&hash=${hash}`;
+
+  try {
+    const {
+      data: {
+        data: { results },
+      },
+    } = await get(encodeURI(url), options);
+    return results;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { allComics, comicById, allCharacters, characterById };

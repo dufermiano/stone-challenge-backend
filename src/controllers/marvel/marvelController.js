@@ -1,6 +1,11 @@
 'use strict';
 
-import { allComics, comicById } from '../../services/marvel';
+import {
+  allComics,
+  comicById,
+  allCharacters,
+  characterById,
+} from '../../services/marvel';
 import { comicsSanitize } from '../../utils/general';
 
 const getComics = async (req, res) => {
@@ -27,4 +32,26 @@ const getComicsById = async (req, res) => {
   }
 };
 
-export { getComics, getComicsById };
+const getCharacters = async (req, res) => {
+  try {
+    const characters = await allCharacters();
+    return res.status(200).json({ status: 'ok', characters });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ status: 'Internal Server Error' });
+  }
+};
+
+const getCharactersById = async (req, res) => {
+  try {
+    const { characterId } = req.params;
+
+    const characters = await characterById(characterId);
+    return res.status(200).json({ status: 'ok', characters });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ status: 'Internal Server Error' });
+  }
+};
+
+export { getComics, getComicsById, getCharacters, getCharactersById };

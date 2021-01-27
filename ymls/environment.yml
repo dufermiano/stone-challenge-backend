@@ -8,6 +8,7 @@ MARVEL_BUCKET_NAME: marvel-keys
 
 MARVEL_API_BASE_URL: http://gateway.marvel.com/v1/public
 MARVEL_API_COMICS: /comics
+MARVEL_API_CHARACTERS: /characters
 
 MARVEL_PRIVATE_KEY_FILE_NAME: privateKey.txt
 MARVEL_PUBLIC_KEY_FILE_NAME: publicKey.txt

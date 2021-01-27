@@ -13,10 +13,18 @@ import {
   listFavorites,
 } from './favorites/favoriteController';
 
-import { getComics, getComicsById } from './marvel/marvelController';
+import {
+  getComics,
+  getComicsById,
+  getCharacters,
+  getCharactersById,
+} from './marvel/marvelController';
 
 export {
   getComics,
+  getCharacters,
+  getComicsById,
+  getCharactersById,
   login,
   logout,
   createUser,
@@ -26,5 +34,4 @@ export {
   deactivateFavorite,
   listFavorites,
   getUserById,
-  getComicsById,
 };

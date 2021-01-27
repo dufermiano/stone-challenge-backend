@@ -58,6 +58,66 @@ getComicsById:
             - Access-Control-Allow-Headers
           allowCredentials: false
         private: ${self:custom.PRIVATE_HTTP.${self:provider.stage}}
+getCharacters:
+  handler: index.handler
+  memorySize: 128
+  iamRoleStatementsName: ${self:service}-${self:provider.stage}-get-characters-s3-permission
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:getObject
+      Resource:
+        - arn:aws:s3:::marvel-keys/*
+  events:
+    - http:
+        path: marvel/characters
+        integration: lambda-proxy
+        method: get
+        cors:
+          origin: '*'
+          headers:
+            - Content-Type
+            - X-Amz-Date
+            - Authorization
+            - X-Api-Key
+            - X-Amz-Security-Token
+            - X-Amz-User-Agent
+            - Cache-Control
+            - Access-Control-Allow-Origin
+            - Access-Control-Allow-Credentials
+            - Access-Control-Allow-Headers
+          allowCredentials: false
+        private: ${self:custom.PRIVATE_HTTP.${self:provider.stage}}
+getCharactersById:
+  handler: index.handler
+  memorySize: 128
+  iamRoleStatementsName: ${self:service}-${self:provider.stage}-get-characters-by-id-s3-permission
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:getObject
+      Resource:
+        - arn:aws:s3:::marvel-keys/*
+  events:
+    - http:
+        path: marvel/characters/{characterId}
+        integration: lambda-proxy
+        method: get
+        cors:
+          origin: '*'
+          headers:
+            - Content-Type
+            - X-Amz-Date
+            - Authorization
+            - X-Api-Key
+            - X-Amz-Security-Token
+            - X-Amz-User-Agent
+            - Cache-Control
+            - Access-Control-Allow-Origin
+            - Access-Control-Allow-Credentials
+            - Access-Control-Allow-Headers
+          allowCredentials: false
+        private: ${self:custom.PRIVATE_HTTP.${self:provider.stage}}
 createUser:
   handler: index.handler
   memorySize: 128
