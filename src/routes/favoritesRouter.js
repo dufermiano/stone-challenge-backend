@@ -2,7 +2,7 @@ import { Router } from 'express';
 import {
   listFavorites,
   createFavorite,
-  activateOrDeactivateFavorite,
+  deactivateFavorite,
 } from '../controllers';
 
 // Importing middleware function that authorizes the request
@@ -11,16 +11,12 @@ import { verifyJWT } from '../utils/jwt';
 const favoritesRouter = Router();
 
 // Favorite Routes
-favoritesRouter.post(
-  '/favorites/create-favorite/:userId',
-  verifyJWT,
-  createFavorite
-);
+favoritesRouter.post('/favorites/create/:userId', verifyJWT, createFavorite);
 favoritesRouter.get('/favorites/:userId', verifyJWT, listFavorites);
-favoritesRouter.get(
-  '/favorites/change-status/:userId',
+favoritesRouter.put(
+  '/favorites/deactivate/:favId',
   verifyJWT,
-  activateOrDeactivateFavorite
+  deactivateFavorite
 );
 
 export default favoritesRouter;
