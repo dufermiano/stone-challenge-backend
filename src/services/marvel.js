@@ -57,7 +57,7 @@ const allCharacters = async () => {
   const { privateKey, publicKey } = await getKeys();
   const hash = await createHash(privateKey, publicKey);
 
-  const url = `${process.env.MARVEL_API_CHARACTERS}?limit=100ts=${process.env.MARVEL_API_TIMESTAMP}&apikey=${publicKey}&hash=${hash}`;
+  const url = `${process.env.MARVEL_API_CHARACTERS}?ts=${process.env.MARVEL_API_TIMESTAMP}&apikey=${publicKey}&hash=${hash}`;
 
   try {
     const {
