@@ -2,7 +2,7 @@ STAGE: ${self:provider.stage}
 REGION: ${self:provider.region}
 SERVICE: ${self:service}
 TIMEOUT: 2000000
-APPLICATION: bff-ms-directvgo-elsys
+APPLICATION: marvel-app
 
 MARVEL_BUCKET_NAME: marvel-keys
 
@@ -15,7 +15,7 @@ MARVEL_PUBLIC_KEY_FILE_NAME: publicKey.txt
 
 MARVEL_API_TIMESTAMP: 10000
 
-DB_HOST: 127.0.0.1
-DB_USER: root
-DB_PASS: rootroot
-DB_DATABASE: STONE
+DB_HOST: ${self:custom.DB_HOST.${self:provider.stage}}
+DB_USER: ${self:custom.DB_USER}
+DB_PASS: ${self:custom.DB_PASS}
+DB_DATABASE: ${self:custom.DB_DATABASE}

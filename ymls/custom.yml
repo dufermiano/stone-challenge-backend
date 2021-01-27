@@ -1,5 +1,5 @@
 PRIVATE_HTTP:
-  dev: true
+  prd: true
   local: true
   # serverless-webpack configuration
   # Enable auto-packing of external modules
@@ -8,3 +8,10 @@ webpack:
   webpackConfig: ./webpack.config.js
   includeModules: true
   packager: yarn
+
+DB_HOST:
+  prd: myapp-database.cpwa3yxuiuxn.sa-east-1.rds.amazonaws.com
+  local: 127.0.0.1
+DB_USER: root
+DB_PASS: masterpass
+DB_DATABASE: MARVELAPP
