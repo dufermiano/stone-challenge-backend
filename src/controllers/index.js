@@ -9,11 +9,11 @@ import {
 
 import {
   createFavorite,
-  activateOrDeactivateFavorite,
+  deactivateFavorite,
   listFavorites,
 } from './favorites/favoriteController';
 
-import { getComics } from './marvel/marvelController';
+import { getComics, getComicsById } from './marvel/marvelController';
 
 export {
   getComics,
@@ -23,7 +23,8 @@ export {
   updateUser,
   activateOrDeactivateUser,
   createFavorite,
-  activateOrDeactivateFavorite,
+  deactivateFavorite,
   listFavorites,
   getUserById,
+  getComicsById,
 };

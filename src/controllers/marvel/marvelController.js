@@ -1,31 +1,30 @@
 'use strict';
 
-import { getAllComics } from '../../services/marvel';
+import { allComics, comicById } from '../../services/marvel';
+import { comicsSanitize } from '../../utils/general';
 
 const getComics = async (req, res) => {
   try {
-    const comics = await getAllComics();
-    // filtering data that are complete, fitting to the application necessity
-    const filteredComics = comics
-      .filter(
-        (comic) =>
-          comic.description !== null &&
-          comic.images.length > 0 &&
-          comic.characters.items.length > 0 &&
-          comic.title !== null &&
-          comic.thumbnail !== null
-      )
-      .map((comicUnwrapped) => {
-        const { path, extension } = comicUnwrapped.thumbnail;
-
-        comicUnwrapped.imagePath = `${path}/portrait_fantastic.${extension}`;
-        return comicUnwrapped;
-      });
-    return res.status(200).json({ status: 'ok', filteredComics });
+    const comics = await allComics();
+    const sanitizedComics = await comicsSanitize(comics);
+    return res.status(200).json({ status: 'ok', sanitizedComics });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ status: 'Internal Server Error' });
   }
 };
 
-export { getComics };
+const getComicsById = async (req, res) => {
+  try {
+    const { comicId } = req.params;
+
+    const comics = await comicById(comicId);
+    const sanitizedComic = await comicsSanitize(comics);
+    return res.status(200).json({ status: 'ok', sanitizedComic });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ status: 'Internal Server Error' });
+  }
+};
+
+export { getComics, getComicsById };

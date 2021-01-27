@@ -1,7 +1,7 @@
 getComics:
   handler: index.handler
   memorySize: 128
-  iamRoleStatementsName: ${self:service}-${self:provider.stage}-s3-permission
+  iamRoleStatementsName: ${self:service}-${self:provider.stage}-get-comics-s3-permission
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -28,12 +28,42 @@ getComics:
             - Access-Control-Allow-Headers
           allowCredentials: false
         private: ${self:custom.PRIVATE_HTTP.${self:provider.stage}}
+getComicsById:
+  handler: index.handler
+  memorySize: 128
+  iamRoleStatementsName: ${self:service}-${self:provider.stage}-get-comics-by-id-s3-permission
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:getObject
+      Resource:
+        - arn:aws:s3:::marvel-keys/*
+  events:
+    - http:
+        path: marvel/comics/{comicId}
+        integration: lambda-proxy
+        method: get
+        cors:
+          origin: '*'
+          headers:
+            - Content-Type
+            - X-Amz-Date
+            - Authorization
+            - X-Api-Key
+            - X-Amz-Security-Token
+            - X-Amz-User-Agent
+            - Cache-Control
+            - Access-Control-Allow-Origin
+            - Access-Control-Allow-Credentials
+            - Access-Control-Allow-Headers
+          allowCredentials: false
+        private: ${self:custom.PRIVATE_HTTP.${self:provider.stage}}
 createUser:
   handler: index.handler
   memorySize: 128
   events:
     - http:
-        path: users/create-user
+        path: users/create
         integration: lambda-proxy
         method: post
         cors:
@@ -171,7 +201,7 @@ createFavorite:
   memorySize: 128
   events:
     - http:
-        path: favorites/create-favorite/{userId}
+        path: favorites/create/{userId}
         integration: lambda-proxy
         method: post
         cors:
@@ -194,9 +224,9 @@ updateFavoriteStatus:
   memorySize: 128
   events:
     - http:
-        path: favorite/update-favorite/{userId}
+        path: favorites/deactivate/{favId}
         integration: lambda-proxy
-        method: post
+        method: put
         cors:
           origin: '*'
           headers:
