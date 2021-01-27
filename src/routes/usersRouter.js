@@ -14,7 +14,7 @@ import { verifyJWT } from '../utils/jwt';
 const usersRouter = Router();
 
 // User Routes
-usersRouter.post('/users/create-user', createUser);
+usersRouter.post('/users/create', createUser);
 usersRouter.get('/users/:userId', verifyJWT, getUserById);
 usersRouter.patch(
   '/users/update-user-status/:userId',

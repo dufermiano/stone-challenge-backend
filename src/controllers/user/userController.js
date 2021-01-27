@@ -16,7 +16,9 @@ const createUser = async (req, res) => {
     const [currentUser] = await userDao.getByUsername(user.username);
 
     if (currentUser.length > 0) {
-      return res.status(200).json('Usuario já existe');
+      return res
+        .status(200)
+        .json({ message: 'Usuario já existe', created: false });
     }
 
     user.active = true;
@@ -24,7 +26,7 @@ const createUser = async (req, res) => {
     user.password = encryptedPass;
     await userDao.save(user);
 
-    return res.status(202).json('Usuario criado');
+    return res.status(202).json({ message: 'Usuario criado!', created: true });
   } catch (error) {
     console.log(error);
     return res.status(500).json('Internal Server Error');
@@ -93,9 +95,10 @@ const activateOrDeactivateUser = async (req, res) => {
   const userDao = new UserDao(conn);
 
   const userData = req.body;
+  const { userId } = req.params;
 
   try {
-    const { affectedRows } = await userDao.modify(1, userData);
+    const { affectedRows } = await userDao.modify(userId, userData);
     console.log(affectedRows);
 
     if (affectedRows > 0) {
