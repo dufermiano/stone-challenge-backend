@@ -10,20 +10,36 @@ const createFavorite = async (req, res) => {
 
   const favData = req.body;
   const { userId } = req.params;
+  let currentField;
 
   try {
-    for (let x in favData) {
-      if (favData[x] === null) {
-        delete favData[x];
+    for (let key in favData) {
+      if (favData[key] === null) {
+        delete favData[key];
+      } else {
+        currentField = key;
       }
     }
 
-    const [favorites] = await favoriteDao.getByAllById(userId, favData);
+    const [favorites] = await favoriteDao.getAllById(userId, favData);
 
-    if (favorites.length > 0) {
+    // checks exactly the favorite request, and if it is repeated will not be created again
+
+    if (favorites.length > 0 && favorites[0].active === 1) {
       return res
         .status(200)
         .json({ message: 'Favorito já existe', created: false });
+    }
+    // since there is a logical delete, if the combination of favorites already exists on the table
+    // its status is updated to active
+    else if (favorites.length > 0 && favorites[0].active === 0) {
+      favData.active = true;
+      delete favData[currentField];
+
+      await favoriteDao.modify(userId, favData);
+      return res
+        .status(202)
+        .json({ message: 'Favorito ativado', created: true });
     }
 
     favData.active = true;
@@ -37,16 +53,16 @@ const createFavorite = async (req, res) => {
   }
 };
 
-const activateOrDeactivateFavorite = async (req, res) => {
+const deactivateFavorite = async (req, res) => {
   const conn = await connectDB();
 
-  const favoriteDao = new UserDao(conn);
+  const favoriteDao = new FavoriteDao(conn);
 
   const favData = req.body;
-  const { userId } = req.params;
+  const { favId } = req.params;
 
   try {
-    const { affectedRows } = await favoriteDao.modify(userId, favData);
+    const { affectedRows } = await favoriteDao.modify(favId, favData);
 
     if (affectedRows > 0) {
       const responseString = favData.active
@@ -73,6 +89,7 @@ const listFavorites = async (req, res) => {
   const { userId } = req.params;
 
   try {
+    // list all the favorites by user
     const [favorites] = await favoriteDao.getAllByUserId(userId);
 
     if (favorites.length === 0) {
@@ -88,4 +105,4 @@ const listFavorites = async (req, res) => {
   }
 };
 
-export { createFavorite, activateOrDeactivateFavorite, listFavorites };
+export { createFavorite, deactivateFavorite, listFavorites };
