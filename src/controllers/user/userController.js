@@ -21,7 +21,7 @@ const createUser = async (req, res) => {
       return responseHandler({
         res,
         statusCode: STATUS_CODE.success,
-        message: defaultMessages.userExists,
+        message: defaultMessages.users.exists,
         created: false,
       });
     }
@@ -33,7 +33,7 @@ const createUser = async (req, res) => {
     return responseHandler({
       res,
       statusCode: STATUS_CODE.created,
-      message: defaultMessages.userCreated,
+      message: defaultMessages.users.created,
       created: true,
     });
   } catch (error) {
@@ -68,7 +68,7 @@ const login = async (req, res) => {
       res,
       statusCode: STATUS_CODE.badGateway,
       isAuth: false,
-      message: defaultMessages.invalidLogin,
+      message: defaultMessages.users.invalidLogin,
     });
   } catch (error) {
     throw errorHandler(res, error);
@@ -105,7 +105,7 @@ const updateUser = async (req, res) => {
       res,
       statusCode: STATUS_CODE.success,
       isAuth: true,
-      message: defaultMessages.changedUser,
+      message: defaultMessages.users.changed,
       modified: true,
     });
   } catch (error) {
@@ -135,7 +135,7 @@ const activateOrDeactivateUser = async (req, res) => {
         statusCode: STATUS_CODE.success,
         isAuth: true,
         message: responseString,
-        modified: userData.activee,
+        modified: userData.active,
       });
     }
 
@@ -143,7 +143,7 @@ const activateOrDeactivateUser = async (req, res) => {
       res,
       statusCode: STATUS_CODE.success,
       isAuth: true,
-      message: defaultMessages.userNotFound,
+      message: defaultMessages.users.notFound,
     });
   } catch (error) {
     throw errorHandler(res, error);
