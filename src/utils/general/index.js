@@ -1,3 +1,5 @@
+import { STATUS_CODE } from './constantes';
+
 // filtering data that are complete and fitting to the application necessity
 const comicsSanitize = async (comics) =>
   comics
@@ -18,8 +20,10 @@ const comicsSanitize = async (comics) =>
     });
 
 const errorHandler = (res, error) => {
-  console.error(error);
-  if (!error.statusCode) error.statusCode = STATUS_CODE.internalError;
+  console.log(error);
+  if (!error.statusCode) {
+    error.statusCode = STATUS_CODE.internalError;
+  }
   return res
     .status(error.statusCode)
     .json({ message: 'Internal Server Error' });
@@ -36,6 +40,7 @@ const responseHandler = ({
   characters,
   created,
   modified,
+  active,
   token,
 }) => {
   const responseParams = {
@@ -47,6 +52,7 @@ const responseHandler = ({
     characters,
     created,
     modified,
+    active,
     token,
   };
 
