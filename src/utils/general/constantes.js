@@ -13,11 +13,24 @@ export const STATUS_CODE = {
 };
 
 export const defaultMessages = {
-  userExists: 'User already exists',
-  userCreated: 'User created',
-  invalidLogin: 'Invalid login! Invalid user or password',
-  changedUser: 'Alterações realizadas',
-  userNotFound: 'User not found',
-  tokenNotAuthorized: 'Fails on auth the token',
-  noTokenProvided: 'No token was provided',
+  users: {
+    exists: 'User already exists',
+    created: 'User created',
+    invalidLogin: 'Invalid login! Invalid user or password',
+    changed: 'Alterações realizadas',
+    notFound: 'User not found',
+  },
+
+  token: {
+    notAuthorized: 'Fails on auth the token',
+    notProvided: 'No token was provided',
+  },
+
+  favorites: {
+    exists: 'Favorite already exists',
+    activated: 'Favorite activated',
+    created: 'Favorite created',
+    notFound: 'Favorite not found',
+    noFavorites: 'No favorites registered',
+  },
 };
