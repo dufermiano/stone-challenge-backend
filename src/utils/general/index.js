@@ -17,4 +17,40 @@ const comicsSanitize = async (comics) =>
       return comicUnwrapped;
     });
 
-export { comicsSanitize };
+const errorHandler = (res, error) => {
+  console.error(error);
+  if (!error.statusCode) error.statusCode = STATUS_CODE.internalError;
+  return res
+    .status(error.statusCode)
+    .json({ message: 'Internal Server Error' });
+};
+
+const responseHandler = ({
+  res,
+  statusCode,
+  isAuth,
+  message,
+  user,
+  favorite,
+  comics,
+  characters,
+  created,
+  modified,
+  token,
+}) => {
+  const responseParams = {
+    isAuth,
+    message,
+    user,
+    favorite,
+    comics,
+    characters,
+    created,
+    modified,
+    token,
+  };
+
+  return res.status(statusCode).json(responseParams);
+};
+
+export { comicsSanitize, errorHandler, responseHandler };

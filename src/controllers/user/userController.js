@@ -3,7 +3,9 @@
 import { connectDB } from '../../services/db';
 import UserDao from '../../services/UserDao';
 import { encrypt } from '../../utils/crypto';
-import jwt from 'jsonwebtoken';
+import { generateToken } from '../../utils/jwt';
+import { STATUS_CODE, defaultMessages } from '../../utils/general/constantes';
+import { errorHandler, responseHandler } from '../../utils/general';
 
 const createUser = async (req, res) => {
   const conn = await connectDB();
@@ -16,20 +18,26 @@ const createUser = async (req, res) => {
     const [currentUser] = await userDao.getByUsername(user.username);
 
     if (currentUser.length > 0) {
-      return res
-        .status(200)
-        .json({ message: 'Usuario já existe', created: false });
+      return responseHandler({
+        res,
+        statusCode: STATUS_CODE.success,
+        message: defaultMessages.userExists,
+        created: false,
+      });
     }
 
     user.active = true;
     const encryptedPass = encrypt(user.password);
     user.password = encryptedPass;
     await userDao.save(user);
-
-    return res.status(202).json({ message: 'Usuario criado!', created: true });
+    return responseHandler({
+      res,
+      statusCode: STATUS_CODE.created,
+      message: defaultMessages.userCreated,
+      created: true,
+    });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json('Internal Server Error');
+    throw errorHandler(res, error);
   }
 };
 
@@ -46,23 +54,34 @@ const login = async (req, res) => {
     const [currentUser] = await userDao.login(username, encryptedPass);
 
     if (currentUser.length > 0) {
-      const token = jwt.sign({ userId: currentUser[0].userId }, 'a', {
-        expiresIn: 1200, // expires in 5min
+      const token = await generateToken();
+
+      return responseHandler({
+        res,
+        statusCode: STATUS_CODE.success,
+        isAuth: true,
+        token,
       });
-      return res.json({ auth: true, token: token });
     }
 
-    return res
-      .status(400)
-      .json({ message: 'Login inválido! Usuário ou senha inválidos' });
+    return responseHandler({
+      res,
+      statusCode: STATUS_CODE.badGateway,
+      isAuth: false,
+      message: defaultMessages.invalidLogin,
+    });
   } catch (error) {
-    console.log(error);
-    res.status(500).json('Internal Server Error');
+    throw errorHandler(res, error);
   }
 };
 
 const logout = (req, res) => {
-  res.json({ auth: false, token: null });
+  return responseHandler({
+    res,
+    statusCode: STATUS_CODE.success,
+    isAuth: false,
+    token: null,
+  });
 };
 
 const updateUser = async (req, res) => {
@@ -82,10 +101,15 @@ const updateUser = async (req, res) => {
     const { affectedRows } = await userDao.modify(userId, userData);
     console.log('Linhas afetadas', affectedRows);
 
-    return res.status(200).json('Usuario alterado');
+    return responseHandler({
+      res,
+      statusCode: STATUS_CODE.success,
+      isAuth: true,
+      message: defaultMessages.changedUser,
+      modified: true,
+    });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json('Internal Server Error');
+    throw errorHandler(res, error);
   }
 };
 
@@ -106,15 +130,23 @@ const activateOrDeactivateUser = async (req, res) => {
         ? 'Usuário ativado'
         : 'Usuário desativado';
 
-      return res
-        .status(200)
-        .json({ message: responseString, modified: userData.active });
+      return responseHandler({
+        res,
+        statusCode: STATUS_CODE.success,
+        isAuth: true,
+        message: responseString,
+        modified: userData.activee,
+      });
     }
 
-    return res.status(200).json('Usuário não encontrado');
+    return responseHandler({
+      res,
+      statusCode: STATUS_CODE.success,
+      isAuth: true,
+      message: defaultMessages.userNotFound,
+    });
   } catch (error) {
-    console.log(error);
-    res.status(500).json('Internal Server Error');
+    throw errorHandler(res, error);
   }
 };
 
@@ -127,10 +159,15 @@ const getUserById = async (req, res) => {
 
   try {
     const [user] = await userDao.getByUserId(userId);
-    return res.status(200).json({ status: 'ok', user });
+
+    return responseHandler({
+      res,
+      statusCode: STATUS_CODE.success,
+      isAuth: true,
+      user,
+    });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ status: 'Internal Server Error' });
+    throw errorHandler(res, error);
   }
 };
 

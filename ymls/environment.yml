@@ -15,6 +15,9 @@ MARVEL_PUBLIC_KEY_FILE_NAME: publicKey.txt
 
 MARVEL_API_TIMESTAMP: 10000
 
+JWT_AUTH_KEY: dea69886bcbd5a706fa68740ad6c953bd788e7efc35812ff473dc8d9e10e1de7
+JWT_EXPIRES: 1200
+
 DB_HOST: ${self:custom.DB_HOST.${self:provider.stage}}
 DB_USER: ${self:custom.DB_USER}
 DB_PASS: ${self:custom.DB_PASS}
