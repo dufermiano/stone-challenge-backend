@@ -6,16 +6,25 @@ import {
   allCharacters,
   characterById,
 } from '../../services/marvel';
-import { comicsSanitize } from '../../utils/general';
+import {
+  comicsSanitize,
+  errorHandler,
+  responseHandler,
+} from '../../utils/general';
+import { STATUS_CODE, defaultMessages } from '../../utils/general/constantes';
 
 const getComics = async (req, res) => {
   try {
     const comics = await allComics();
     const sanitizedComics = await comicsSanitize(comics);
-    return res.status(200).json({ status: 'ok', sanitizedComics });
+    return responseHandler({
+      res,
+      statusCode: STATUS_CODE.success,
+      isAuth: true,
+      comics: sanitizedComics,
+    });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ status: 'Internal Server Error' });
+    return errorHandler(res, error);
   }
 };
 
@@ -25,20 +34,28 @@ const getComicsById = async (req, res) => {
 
     const comics = await comicById(comicId);
     const sanitizedComic = await comicsSanitize(comics);
-    return res.status(200).json({ status: 'ok', sanitizedComic });
+    return responseHandler({
+      res,
+      statusCode: STATUS_CODE.success,
+      isAuth: true,
+      comics: sanitizedComic,
+    });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ status: 'Internal Server Error' });
+    return errorHandler(res, error);
   }
 };
 
 const getCharacters = async (req, res) => {
   try {
     const characters = await allCharacters();
-    return res.status(200).json({ status: 'ok', characters });
+    return responseHandler({
+      res,
+      statusCode: STATUS_CODE.success,
+      isAuth: true,
+      characters,
+    });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ status: 'Internal Server Error' });
+    return errorHandler(res, error);
   }
 };
 
@@ -47,10 +64,14 @@ const getCharactersById = async (req, res) => {
     const { characterId } = req.params;
 
     const characters = await characterById(characterId);
-    return res.status(200).json({ status: 'ok', characters });
+    return responseHandler({
+      res,
+      statusCode: STATUS_CODE.success,
+      isAuth: true,
+      characters,
+    });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ status: 'Internal Server Error' });
+    return errorHandler(res, error);
   }
 };
 
