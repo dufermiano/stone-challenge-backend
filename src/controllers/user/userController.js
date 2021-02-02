@@ -37,7 +37,7 @@ const createUser = async (req, res) => {
       created: true,
     });
   } catch (error) {
-    throw errorHandler(res, error);
+    return errorHandler(res, error);
   }
 };
 
@@ -54,7 +54,7 @@ const login = async (req, res) => {
     const [currentUser] = await userDao.login(username, encryptedPass);
 
     if (currentUser.length > 0) {
-      const token = await generateToken();
+      const token = await generateToken(currentUser[0].userId);
 
       return responseHandler({
         res,
@@ -71,7 +71,7 @@ const login = async (req, res) => {
       message: defaultMessages.users.invalidLogin,
     });
   } catch (error) {
-    throw errorHandler(res, error);
+    return errorHandler(res, error);
   }
 };
 
@@ -109,7 +109,7 @@ const updateUser = async (req, res) => {
       modified: true,
     });
   } catch (error) {
-    throw errorHandler(res, error);
+    return errorHandler(res, error);
   }
 };
 
@@ -135,7 +135,8 @@ const activateOrDeactivateUser = async (req, res) => {
         statusCode: STATUS_CODE.success,
         isAuth: true,
         message: responseString,
-        modified: userData.active,
+        active: userData.active,
+        modified: true,
       });
     }
 
@@ -146,7 +147,7 @@ const activateOrDeactivateUser = async (req, res) => {
       message: defaultMessages.users.notFound,
     });
   } catch (error) {
-    throw errorHandler(res, error);
+    return errorHandler(res, error);
   }
 };
 
@@ -167,7 +168,7 @@ const getUserById = async (req, res) => {
       user,
     });
   } catch (error) {
-    throw errorHandler(res, error);
+    return errorHandler(res, error);
   }
 };
 
