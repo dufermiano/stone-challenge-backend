@@ -10,7 +10,7 @@ const verifyJWT = (req, res, next) => {
         res,
         statusCode: STATUS_CODE.unauthorized,
         isAuth: false,
-        message: defaultMessages.noTokenProvided,
+        message: defaultMessages.token.notProvided,
       });
     }
 
@@ -18,25 +18,31 @@ const verifyJWT = (req, res, next) => {
       if (err) {
         return responseHandler({
           res,
-          statusCode: STATUS_CODE.success,
+          message: defaultMessages.token.notAuthorized,
+          statusCode: STATUS_CODE.unauthorized,
           isAuth: false,
-          message: defaultMessages.tokenNotAuthorized,
         });
       }
 
       // if everything is ok, saves on the request to use later
-      req.userId = decoded.id;
+      req.userId = decoded.userId;
       next();
     });
   } catch (error) {
-    throw errorHandler(res, error);
+    return errorHandler(res, error);
   }
 };
 
-const generateToken = async () => {
-  return jwt.sign({ userId: currentUser[0].userId }, process.env.JWT_AUTH_KEY, {
-    expiresIn: process.env.JWT_EXPIRES, // expires in 20 min
-  });
+const generateToken = async (userId) => {
+  try {
+    const token = jwt.sign({ userId }, process.env.JWT_AUTH_KEY, {
+      expiresIn: process.env.JWT_EXPIRES, // expires in 1 hour
+    });
+
+    return token;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export { verifyJWT, generateToken };
