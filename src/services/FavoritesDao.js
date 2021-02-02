@@ -1,4 +1,4 @@
-class FavoriteDao {
+class FavoritesDao {
   constructor(connection) {
     this.connection = connection;
   }
@@ -44,4 +44,4 @@ class FavoriteDao {
   }
 }
 
-export default FavoriteDao;
+export default FavoritesDao;

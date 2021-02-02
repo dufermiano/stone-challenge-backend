@@ -8,10 +8,10 @@ import {
 } from './user/userController';
 
 import {
-  createFavorite,
-  deactivateFavorite,
+  createFavorites,
+  deactivateFavorites,
   listFavorites,
-} from './favorites/favoriteController';
+} from './favorites/favoritesController';
 
 import {
   getComics,
@@ -30,8 +30,8 @@ export {
   createUser,
   updateUser,
   activateOrDeactivateUser,
-  createFavorite,
-  deactivateFavorite,
+  createFavorites,
+  deactivateFavorites,
   listFavorites,
   getUserById,
 };
