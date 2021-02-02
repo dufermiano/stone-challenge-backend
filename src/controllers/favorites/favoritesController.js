@@ -6,15 +6,14 @@ import { STATUS_CODE, defaultMessages } from '../../utils/general/constantes';
 import { errorHandler, responseHandler } from '../../utils/general';
 
 const createFavorites = async (req, res) => {
-  const conn = await connectDB();
-
-  const favoritesDao = new favoritesDao(conn);
-
   const favData = req.body;
   const { userId } = req.params;
   let currentField;
 
   try {
+    const conn = await connectDB();
+    const favoritesDao = new FavoritesDao(conn);
+
     for (let key in favData) {
       if (favData[key] === null) {
         delete favData[key];
@@ -65,19 +64,19 @@ const createFavorites = async (req, res) => {
       created: true,
     });
   } catch (error) {
-    throw errorHandler(res, error);
+    return errorHandler(res, error);
   }
 };
 
 const deactivateFavorites = async (req, res) => {
-  const conn = await connectDB();
-
-  const favoritesDao = new favoritesDao(conn);
-
   const favData = req.body;
   const { favId } = req.params;
 
   try {
+    const conn = await connectDB();
+
+    const favoritesDao = new FavoritesDao(conn);
+
     const { affectedRows } = await favoritesDao.modify(favId, favData);
 
     if (affectedRows > 0) {
@@ -89,7 +88,8 @@ const deactivateFavorites = async (req, res) => {
         res,
         statusCode: STATUS_CODE.success,
         message: responseString,
-        modified: favData.active,
+        active: favData.active,
+        modified: true,
       });
     }
 
@@ -100,19 +100,18 @@ const deactivateFavorites = async (req, res) => {
       message: defaultMessages.favorites.notFound,
     });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json('Internal Server Error');
+    return errorHandler(res, error);
   }
 };
 
 const listFavorites = async (req, res) => {
-  const conn = await connectDB();
-
-  const favoritesDao = new FavoritesDao(conn);
-
   const { userId } = req.params;
 
   try {
+    const conn = await connectDB();
+
+    const favoritesDao = new FavoritesDao(conn);
+
     // list all the favorites by user
     const [favorites] = await favoritesDao.getAllByUserId(userId);
 
@@ -130,12 +129,10 @@ const listFavorites = async (req, res) => {
       res,
       isAuth: true,
       statusCode: STATUS_CODE.success,
-      message: defaultMessages.favorites.noFavorites,
-      favorite: null,
+      favorites,
     });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ status: 'Internal Server Error' });
+    return errorHandler(res, error);
   }
 };
 
